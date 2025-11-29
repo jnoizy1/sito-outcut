@@ -5,136 +5,754 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DENIM OUTCUT</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@300;500;700&display=swap"
+        rel="stylesheet">
 
     <style>
         /* --- 1. SETUP BASE & NOISE TEXTURE --- */
-        :root { --bg-color: #050505; --text-color: #ffffff; --panel-bg: #0a0a0a; --border-color: rgba(255, 255, 255, 0.15); }
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        html, body { scroll-behavior: auto !important; }
-        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Manrope', sans-serif; overflow-x: hidden; }
-        
+        :root {
+            --bg-color: #050505;
+            --text-color: #ffffff;
+            --panel-bg: #0a0a0a;
+            --border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        html,
+        body {
+            scroll-behavior: auto !important;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+        }
+
         /* Noise Overlay */
         body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-            pointer-events: none; z-index: 999;
+            pointer-events: none;
+            z-index: 999;
         }
 
         /* --- 2. CURSORE --- */
-        .cursor { width: 20px; height: 20px; border: 1px solid white; border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000; transition: transform 0.1s, border-color 0.2s; mix-blend-mode: difference; background: white; transform-origin: center; }
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 1px solid white;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s, border-color 0.2s;
+            mix-blend-mode: difference;
+            background: white;
+            transform-origin: center;
+        }
 
         /* --- 3. TYPOGRAPHY & ANIMATIONS --- */
-        h1, h2, .price { font-family: 'Anton', sans-serif; text-transform: uppercase; line-height: 0.9; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        h1,
+        h2,
+        .price {
+            font-family: 'Anton', sans-serif;
+            text-transform: uppercase;
+            line-height: 0.9;
+        }
 
-        /* --- 4. HEADER --- */
-        header { position: fixed; top: 0; width: 100%; padding: 20px 40px; display: flex; align-items: center; z-index: 100; mix-blend-mode: difference; opacity: 0; animation: fadeInUp 1s ease-out forwards; animation-delay: 1.5s; }
-        .logo { font-family: 'Anton'; font-size: 1.5rem; letter-spacing: 2px; }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
 
-        /* --- 5. HERO GRID --- */
-        .hero { height: 100vh; height: 100dvh; width: 100%; position: relative; overflow: hidden; border-bottom: 1px solid #333; }
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1584278426002-c20e55047f3b?q=80&w=2070&auto=format&fit=crop') center/cover; filter: grayscale(100%) contrast(120%); opacity: 0.6; animation: bgZoom 10s infinite alternate; z-index: 1; }
-        @keyframes bgZoom { from { transform: scale(1); } to { transform: scale(1.05); } }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-        .hero-grid { position: relative; z-index: 2; height: 100%; width: 100%; display: grid; grid-template-columns: 15% 1fr 15%; grid-template-rows: 15% 1fr 15%; mix-blend-mode: difference; }
-        .grid-cell { display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); position: relative; }
+        /* --- 4. HEADER (MINIMAL) --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        .logo {
+            font-family: 'Anton';
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        /* --- 5. BRUTALIST HERO GRID --- */
+        .hero {
+            height: 100vh; 
+            height: 100dvh; /* Fix Mobile */
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #333;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1584278426002-c20e55047f3b?q=80&w=2070&auto=format&fit=crop') center/cover;
+            filter: grayscale(100%) contrast(120%);
+            opacity: 0.6;
+            animation: bgZoom 10s infinite alternate;
+            z-index: 1;
+        }
+
+        @keyframes bgZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        /* GRIGLIA PULITA */
+        .hero-grid {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 15% 1fr 15%;
+            grid-template-rows: 15% 1fr 15%;
+            mix-blend-mode: difference;
+        }
+
+        .grid-cell {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
         .hero-grid .grid-cell:nth-child(3n) { border-right: none; }
         .hero-grid .grid-cell:nth-child(n+7) { border-bottom: none; }
-        .crosshair { font-size: 1.5rem; font-weight: 300; opacity: 0.5; color: white; }
-        .center-main { display: flex; justify-content: center; align-items: center; flex-direction: column; }
 
-        /* LOGO STYLE */
-        .hero-graphic { width: 300px; height: auto; margin-bottom: 1.5rem; opacity: 0; animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; animation-delay: 0.1s; mix-blend-mode: screen; }
-        .hero-subtitle { font-family: 'Manrope', sans-serif; font-size: 1.5rem; font-weight: 600; letter-spacing: 5px; margin-bottom: 30px; text-transform: uppercase; opacity: 0; animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; animation-delay: 0.2s; }
-        .center-main h1 { font-size: 10vw; line-height: 0.8; white-space: nowrap; opacity: 0; animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; animation-delay: 0.5s; }
-        
-        .scroll-indicator { font-family: 'Manrope', monospace; text-transform: uppercase; letter-spacing: 2px; font-size: 0.7rem; color: rgba(255, 255, 255, 0.7); animation: blink 2s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .crosshair {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.5;
+            color: white;
+        }
 
-        /* MARQUEE */
-        .marquee-container { background: white; color: black; padding: 20px 0; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #333; }
-        .marquee-content { display: inline-block; animation: scroll 20s linear infinite; font-family: 'Anton'; font-size: 4rem; }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .center-main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
 
-        /* LOOKBOOK */
-        .lookbook { padding: 100px 5%; }
-        .item { display: flex; align-items: center; margin-bottom: 150px; justify-content: space-between; }
-        .item:nth-child(even) { flex-direction: row-reverse; }
-        .item-img-box { width: 45%; height: 600px; overflow: hidden; position: relative; }
-        .item-img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: transform 1s ease, filter 0.5s; }
-        .item-img-box:hover .item-img { transform: scale(1.1); filter: grayscale(0%); }
-        .item-info { width: 40%; }
-        .item-num { font-size: 1rem; color: #555; display: inline-block; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .item h2 { font-size: 4rem; margin-bottom: 20px; }
-        .item p { font-size: 1rem; color: #aaa; max-width: 300px; line-height: 1.8; }
-        .btn-shop { margin-top: 30px; display: inline-block; padding: 15px 40px; border: 1px solid white; color: white; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; transition: 0.3s; text-decoration: none; }
-        .btn-shop:hover { background: white; color: black; }
+        /* --- STILE LOGO --- */
+        .hero-graphic {
+            width: 300px;
+            height: auto;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 0.1s;
+            mix-blend-mode: screen; 
+        }
 
-        /* PANEL */
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
-        .overlay.active { opacity: 1; pointer-events: all; }
-        .product-panel { position: fixed; top: 0; right: 0; width: 50vw; height: 100%; background: var(--panel-bg); z-index: 2001; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); border-left: 1px solid #333; padding: 60px; overflow-y: auto; display: flex; flex-direction: column; }
-        .product-panel.open { transform: translateX(0); }
-        .panel-header { display: flex; justify-content: space-between; margin-bottom: 40px; font-size: 0.8rem; color: #555; font-family: monospace; border-bottom: 1px solid #222; padding-bottom: 20px; }
-        .close-btn { background: none; border: none; color: white; font-family: 'Manrope'; text-transform: uppercase; font-size: 0.8rem; }
-        .close-btn:hover { color: #ff3333; }
-        .panel-img-box { width: 100%; height: 400px; overflow: hidden; margin-bottom: 30px; }
-        #panel-img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); }
-        #panel-title { font-size: 3rem; margin-bottom: 20px; }
-        .tech-specs { margin-bottom: 30px; border-top: 1px solid #222; }
-        .spec-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #222; font-size: 0.8rem; color: #aaa; font-family: monospace; }
-        .panel-desc { font-size: 0.9rem; line-height: 1.6; color: #ccc; margin-bottom: 40px; }
-        .panel-actions { margin-top: auto; display: flex; justify-content: flex-end; align-items: center; border-top: 1px solid #333; padding-top: 30px; }
-        .price { font-size: 1.5rem; letter-spacing: 1px; }
-        footer { padding: 50px; text-align: center; border-top: 1px solid #222; }
+        /* --- MADE IN ITALY --- */
+        .hero-subtitle {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 5px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 0.2s;
+        }
+
+        .center-main h1 {
+            font-size: 10vw;
+            line-height: 0.8;
+            white-space: nowrap;
+            opacity: 0;
+            animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 0.5s;
+        }
+
+        .scroll-indicator {
+            font-family: 'Manrope', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.7);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* --- 6. MARQUEE --- */
+        .marquee-container {
+            background: white;
+            color: black;
+            padding: 20px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            border-bottom: 1px solid #333;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 20s linear infinite;
+            font-family: 'Anton';
+            font-size: 4rem;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- 7. LOOKBOOK --- */
+        .lookbook {
+            padding: 100px 5%;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 150px;
+            justify-content: space-between;
+        }
+
+        .item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .item-img-box {
+            width: 45%;
+            height: 600px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .item-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: transform 1s ease, filter 0.5s;
+        }
+
+        .item-img-box:hover .item-img {
+            transform: scale(1.1);
+            filter: grayscale(0%);
+        }
+
+        .item-info {
+            width: 40%;
+        }
+
+        .item-num {
+            font-size: 1rem;
+            color: #555;
+            display: inline-block;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .item h2 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .item p {
+            font-size: 1rem;
+            color: #aaa;
+            max-width: 300px;
+            line-height: 1.8;
+        }
+
+        .btn-shop {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 15px 40px;
+            border: 1px solid white;
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-shop:hover {
+            background: white;
+            color: black;
+        }
+
+        /* --- 8. OFF-CANVAS PANEL --- */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .product-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50vw;
+            height: 100%;
+            background: var(--panel-bg);
+            z-index: 2001;
+            transform: translateX(100%);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            border-left: 1px solid #333;
+            padding: 60px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-panel.open {
+            transform: translateX(0);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            font-size: 0.8rem;
+            color: #555;
+            font-family: monospace;
+            border-bottom: 1px solid #222;
+            padding-bottom: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-family: 'Manrope';
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .close-btn:hover {
+            color: #ff3333;
+        }
+
+        .panel-img-box {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        #panel-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+        }
+
+        #panel-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .tech-specs {
+            margin-bottom: 30px;
+            border-top: 1px solid #222;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #222;
+            font-size: 0.8rem;
+            color: #aaa;
+            font-family: monospace;
+        }
+
+        .panel-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 40px;
+        }
+
+        .panel-actions {
+            margin-top: auto;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            border-top: 1px solid #333;
+            padding-top: 30px;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 50px;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .hero-grid { display: block; position: relative; }
-            .grid-cell { border: none; padding: 10px; }
-            .top-left, .top-right, .center-left, .center-right, .bottom-left, .bottom-right { display: none; }
+            .hero-grid {
+                display: block; 
+                position: relative;
+            }
 
-            /* CENTRATURA 40% */
-            .center-main { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 100%; text-align: center; z-index: 10; padding-bottom: 0; }
-            .center-main h1 { font-size: 18vw; }
-            .hero-subtitle { font-size: 1rem; margin-bottom: 10px; }
-            .hero-graphic { width: 200px; margin-bottom: 15px; }
+            .grid-cell {
+                border: none;
+                padding: 10px;
+            }
 
-            .top-center { position: absolute; top: 20px; width: 100%; display: flex; justify-content: center; }
-            .bottom-center { position: absolute; bottom: 80px; width: 100%; display: flex; justify-content: center; }
+            .top-left, .top-right, .center-left, .center-right, .bottom-left, .bottom-right {
+                display: none;
+            }
+
+            /* --- CENTRATURA 40% PER IL TELEFONO --- */
+            .center-main {
+                position: absolute;
+                top: 40%; /* La modifica che volevi */
+                left: 50%; 
+                transform: translate(-50%, -50%); 
+                width: 100%;
+                text-align: center;
+                z-index: 10;
+                padding-bottom: 0;
+            }
+
+            .center-main h1 {
+                font-size: 18vw;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
             
-            .item, .item:nth-child(even) { flex-direction: column; margin-bottom: 80px; }
-            .item-img-box, .item-info { width: 100%; }
-            .item-img-box { height: 400px; margin-bottom: 30px; }
-            .item h2 { font-size: 3rem; }
-            .product-panel { width: 100%; padding: 20px; }
-            #panel-title { font-size: 2rem; }
+            .hero-graphic {
+                width: 200px;
+                margin-bottom: 15px;
+            }
+
+            .top-center {
+                position: absolute;
+                top: 20px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+
+            .bottom-center {
+                position: absolute;
+                bottom: 80px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+
+            .item, .item:nth-child(even) {
+                flex-direction: column;
+                margin-bottom: 80px;
+            }
+
+            .item-img-box, .item-info {
+                width: 100%;
+            }
+
+            .item-img-box {
+                height: 400px;
+                margin-bottom: 30px;
+            }
+
+            .item h2 {
+                font-size: 3rem;
+            }
+
+            .product-panel {
+                width: 100%;
+                padding: 20px;
+            }
+
+            #panel-title {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="cursor" id="cursor"></div>
-    <div class="overlay" id="overlay"></div>
 
+    <div class="cursor" id="cursor"></div>
+
+    <div class="overlay" id="overlay"></div>
     <aside class="product-panel" id="product-panel">
         <div class="panel-header">
             <span class="panel-id">REF: <span id="panel-ref">IT-000</span></span>
             <button class="close-btn" id="close-btn">CLOSE [X]</button>
         </div>
+
         <div class="panel-content">
-            <div class="panel-img-box"><img src="" id="panel-img" alt="Detail"></div>
-            <h2 id="panel-title">LOADING...</h2>
-            <div class="tech-specs">
-                <div class="spec-row"><span>MATERIAL</span><span>100% COTTON 14OZ</span></div>
-                <div class="spec-row"><span>ORIGIN</span><span>VENETO, ITALY</span></div>
-                <div class="spec-row"><span>FIT</span><span>TAPERED / RAW</span></div>
+            <div class="panel-img-box">
+                <img src="" id="panel-img" alt="Detail">
             </div>
+
+            <h2 id="panel-title">LOADING...</h2>
+
+            <div class="tech-specs">
+                <div class="spec-row">
+                    <span>MATERIAL</span>
+                    <span>100% COTTON 14OZ</span>
+                </div>
+                <div class="spec-row">
+                    <span>ORIGIN</span>
+                    <span>VENETO, ITALY</span>
+                </div>
+                <div class="spec-row">
+                    <span>FIT</span>
+                    <span>TAPERED / RAW</span>
+                </div>
+            </div>
+
             <p class="panel-desc" id="panel-desc"></p>
-            <div class="panel-actions"><span class="price">€ <span id="panel-price">280.00</span></span></div>
+
+            <div class="panel-actions">
+                <span class="price">€ <span id="panel-price">280.00</span></span>
+            </div>
         </div>
     </aside>
 
     <section class="hero">
+        <div class="hero-bg"></div>
+
+        <div class="hero-grid">
+            <div class="grid-cell top-left"></div>
+            <div class="grid-cell top-center"></div>
+            <div class="grid-cell top-right"></div>
+
+            <div class="grid-cell center-left">
+                <span class="crosshair">+</span>
+            </div>
+
+            <div class="grid-cell center-main">
+                <img src="Pi7_OUTCUT 1-03.png" class="hero-graphic" alt="Logo Outcut">
+                
+                <p class="hero-subtitle">MADE IN ITALY</p>
+                <h1>DENIM OUTCUT</h1>
+            </div>
+
+            <div class="grid-cell center-right">
+                <span class="crosshair">+</span>
+            </div>
+
+            <div class="grid-cell bottom-left"></div>
+            <div class="grid-cell bottom-center">
+                <span class="scroll-indicator">SCORRI PER ESPLORARE ↓</span>
+            </div>
+            <div class="grid-cell bottom-right"></div>
+        </div>
+    </section>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            PREMIUM ARTIGIANALE — STREET SARTORIAL — MADE IN ITALY — LIMITED EDITION —
+            PREMIUM ARTIGIANALE — STREET SARTORIAL — MADE IN ITALY — LIMITED EDITION —
+        </div>
+    </div>
+
+    <section class="lookbook">
+
+        <div class="item">
+            <div class="item-img-box">
+                <img src="Screenshot 2025-11-29 115539.png" class="item-img"
+                    alt="Denim Jacket">
+            </div>
+            <div class="item-info">
+                <span class="item-num">01 / JACKET</span>
+                <h2>THE RIDER</h2>
+                <p>Giacca in denim cimosato nero 14oz. Taglio vivo, bottoni in argento ossidato.</p>
+                <a href="#" class="btn-shop">Guarda i dettagli</a>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-img-box">
+                <img src="Screenshot 2025-11-29 115432.png" class="item-img"
+                    alt="Black Jeans">
+            </div>
+            <div class="item-info">
+                <span class="item-num">02 / PANTS</span>
+                <h2>SKINNY NOIR</h2>
+                <p>La vestibilità perfetta. Nero su nero. Tintura profonda.</p>
+                <a href="#" class="btn-shop">Guarda i dettagli</a>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-img-box">
+                <img src="Screenshot 2025-11-29 115730.png" class="item-img"
+                    alt="Details">
+            </div>
+            <div class="item-info">
+                <span class="item-num">03 / DETAILS</span>
+                <h2>RAW FINISH</h2>
+                <p>Nessun compromesso. Cuciture rinforzate tono su tono.</p>
+                <a href="#" class="btn-shop">Guarda i dettagli</a>
+            </div>
+        </div>
+
+        <div class="item">
+            <div class="item-img-box">
+                <img src="Screenshot 2025-11-29 115641.png" class="item-img"
+                    alt="Distressed Denim">
+            </div>
+            <div class="item-info">
+                <span class="item-num">04 / TEXTURE</span>
+                <h2>DESTROYED</h2>
+                <p>Trattamento artigianale per strappi controllati. Ogni pezzo è unico.</p>
+                <a href="#" class="btn-shop">Guarda i dettagli</a>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <p>DENIM OUTCUT &copy; 2024</p>
+    </footer>
+
+    <script>
+        /* --- FORCE SCROLL TO TOP ON RELOAD --- */
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+
+        window.onbeforeunload = function () {
+            window.scrollTo(0, 0);
+        }
+
+        window.onload = function () {
+            window.scrollTo(0, 0);
+        };
+
+        /* --- CURSOR --- */
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        const hoverTargets = document.querySelectorAll('a, .logo, .close-btn, .item-img-box');
+        hoverTargets.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                cursor.style.transform = "scale(3)";
+                cursor.style.background = "transparent";
+            });
+            link.addEventListener('mouseleave', () => {
+                cursor.style.transform = "scale(1)";
+                cursor.style.background = "white";
+            });
+        });
+
+        /* --- PANEL LOGIC --- */
+        const overlay = document.getElementById('overlay');
+        const panel = document.getElementById('product-panel');
+        const closeBtn = document.getElementById('close-btn');
+
+        const panelImg = document.getElementById('panel-img');
+        const panelTitle = document.getElementById('panel-title');
+        const panelDesc = document.getElementById('panel-desc');
+        const panelRef = document.getElementById('panel-ref');
+
+        function openPanel(item) {
+            const imgSrc = item.querySelector('.item-img').src;
+            const title = item.querySelector('h2').innerText;
+            const desc = item.querySelector('p') ? item.querySelector('p').innerText : "Info non disponibili.";
+            const num = item.querySelector('.item-num').innerText.split('/')[0].trim();
+
+            panelImg.src = imgSrc;
+            panelTitle.innerText = title;
+            panelDesc.innerText = desc + " Trattamento artigianale specifico per ottenere una finitura unica.";
+            panelRef.innerText = "IT-24-" + num;
+
+            overlay.classList.add('active');
+            panel.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        const items = document.querySelectorAll('.item');
+        items.forEach(item => {
+            const btn = item.querySelector('.btn-shop');
+            const imgBox = item.querySelector('.item-img-box');
+            if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); openPanel(item); });
+            imgBox.addEventListener('click', () => openPanel(item));
+        });
+
+        function closePanel() {
+            overlay.classList.remove('active');
+            panel.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeBtn.addEventListener('click', closePanel);
+        overlay.addEventListener('click', closePanel);
+    </script>
+</body>
+
+</html>
