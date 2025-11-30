@@ -23,8 +23,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* Cursore custom solo su desktop */
-            cursor: none;
+            cursor: none; /* Cursore custom di base */
         }
 
         html, body {
@@ -454,28 +453,21 @@
 
             /* 2. GRIGLIA BRUTALISTA VISIBILE */
             .hero-grid {
-                display: grid; /* Manteniamo la griglia! */
-                /* Colonne più strette ai lati per dare spazio al centro */
+                display: grid; 
                 grid-template-columns: 20px 1fr 20px; 
                 grid-template-rows: 15% 1fr 15%;
             }
 
-            /* Assicuriamoci che i bordi si vedano */
             .grid-cell { border-right: 1px solid var(--border-color); }
             .hero-grid .grid-cell:nth-child(3n) { border-right: none; }
             
-            /* Mostriamo le celle laterali per le righe (stile tecnico) */
             .top-left, .top-right, .bottom-left, .bottom-right { display: flex; }
-            
-            /* Nascondiamo solo quelle centrali laterali se stringono troppo */
             .center-left, .center-right { display: none; }
-            /* Espandiamo il centro per occupare lo spazio liberato */
             .center-main { grid-column: 1 / span 3; border-right: none; }
 
 
             /* 3. DIMENSIONI RIDOTTE (NO ZOOM) */
             .center-main {
-                /* Reset posizionamento assoluto, usiamo la griglia */
                 position: relative; 
                 top: auto; left: auto; transform: none;
                 width: 100%; height: 100%;
@@ -483,11 +475,11 @@
             }
 
             .center-main h1 {
-                font-size: 14vw; /* Molto più piccolo di 18vw */
+                font-size: 14vw; /* Font più piccolo */
             }
 
             .hero-subtitle {
-                font-size: 0.9rem; /* Testo più piccolo */
+                font-size: 0.9rem; 
                 margin-bottom: 10px;
                 letter-spacing: 3px;
             }
@@ -498,7 +490,6 @@
             }
 
             .top-center, .bottom-center {
-                /* Centriamo il contenuto nelle celle sopra e sotto */
                 display: flex; justify-content: center; align-items: center;
             }
 
