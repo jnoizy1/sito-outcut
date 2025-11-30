@@ -16,14 +16,14 @@
             --bg-color: #050505;
             --text-color: #ffffff;
             --panel-bg: #0a0a0a;
-            --border-color: rgba(255, 255, 255, 0.15);
+            --border-color: rgba(255, 255, 255, 0.25); /* Reso un po' più visibile */
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Cursore custom di base */
+            cursor: none; /* Cursore custom di base (nascosto su mobile dopo) */
         }
 
         html, body {
@@ -150,6 +150,7 @@
             position: relative;
         }
 
+        /* Rimuove i bordi esterni */
         .hero-grid .grid-cell:nth-child(3n) { border-right: none; }
         .hero-grid .grid-cell:nth-child(n+7) { border-bottom: none; }
 
@@ -443,7 +444,7 @@
         }
 
         /* ------------------------------------------- */
-        /* --- RESPONSIVE MOBILE (Fix Totale) --- */
+        /* --- RESPONSIVE MOBILE (GRIGLIA COERENTE) --- */
         /* ------------------------------------------- */
         @media (max-width: 768px) {
             
@@ -451,49 +452,61 @@
             .cursor { display: none !important; }
             * { cursor: auto !important; }
 
-            /* 2. GRIGLIA BRUTALISTA VISIBILE */
+            /* 2. GRIGLIA 3x3 VISIBILE ANCHE SU MOBILE */
             .hero-grid {
                 display: grid; 
-                grid-template-columns: 20px 1fr 20px; 
+                /* Colonne: 50px (sx) - SPAZIO (centro) - 50px (dx) */
+                grid-template-columns: 50px 1fr 50px; 
                 grid-template-rows: 15% 1fr 15%;
             }
 
-            .grid-cell { border-right: 1px solid var(--border-color); }
-            .hero-grid .grid-cell:nth-child(3n) { border-right: none; }
+            /* Assicuriamoci che tutte le celle abbiano i bordi per fare l'effetto "gabbia" */
+            .grid-cell { 
+                border-right: 1px solid var(--border-color); 
+                border-bottom: 1px solid var(--border-color);
+            }
             
-            .top-left, .top-right, .bottom-left, .bottom-right { display: flex; }
-            .center-left, .center-right { display: none; }
-            .center-main { grid-column: 1 / span 3; border-right: none; }
+            /* Eccezioni per bordi esterni */
+            .hero-grid .grid-cell:nth-child(3n) { border-right: none; }
+            .hero-grid .grid-cell:nth-child(n+7) { border-bottom: none; }
 
+            /* Mostra celle laterali per creare continuità verticale */
+            .top-left, .top-right, .center-left, .center-right, .bottom-left, .bottom-right { 
+                display: flex; 
+                justify-content: center;
+                align-items: center;
+            }
 
-            /* 3. DIMENSIONI RIDOTTE (NO ZOOM) */
+            /* 3. IL CENTRO (Contenuto) */
             .center-main {
-                position: relative; 
+                /* IMPORTANTE: Stai solo nella colonna centrale */
+                grid-column: 2; 
+                
+                /* Reset posizionamento assoluto */
+                position: relative;
                 top: auto; left: auto; transform: none;
                 width: 100%; height: 100%;
                 padding: 0 10px;
             }
 
+            /* 4. DIMENSIONI RIDOTTE (NO ZOOM) */
             .center-main h1 {
-                font-size: 14vw; /* Font più piccolo */
+                font-size: 13vw; /* Ridotto per stare nella colonna centrale */
+                line-height: 0.9;
             }
 
             .hero-subtitle {
-                font-size: 0.9rem; 
+                font-size: 0.8rem; 
                 margin-bottom: 10px;
                 letter-spacing: 3px;
             }
             
             .hero-graphic {
-                width: 160px; /* Logo più piccolo */
+                width: 140px; /* Logo più piccolo */
                 margin-bottom: 10px;
             }
 
-            .top-center, .bottom-center {
-                display: flex; justify-content: center; align-items: center;
-            }
-
-            /* 4. LOOKBOOK MOBILE */
+            /* 5. FIX LOOKBOOK MOBILE */
             .item, .item:nth-child(even) {
                 flex-direction: column;
                 margin-bottom: 80px;
@@ -502,7 +515,7 @@
             .item-img-box { height: 400px; margin-bottom: 30px; }
             .item h2 { font-size: 3rem; }
             
-            /* 5. PANNELLO PRODOTTO MOBILE */
+            /* 6. PANNELLO PRODOTTO MOBILE */
             .product-panel { width: 100%; padding: 20px; }
             #panel-title { font-size: 2rem; }
         }
