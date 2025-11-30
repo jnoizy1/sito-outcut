@@ -16,20 +16,21 @@
             --bg-color: #050505;
             --text-color: #ffffff;
             --panel-bg: #0a0a0a;
-            --border-color: rgba(255, 255, 255, 0.25); /* Reso un po' più visibile */
+            --border-color: rgba(255, 255, 255, 0.2);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Cursore custom di base (nascosto su mobile dopo) */
+            cursor: none;
         }
 
         html, body {
             scroll-behavior: auto !important;
             overflow-x: hidden;
             width: 100%;
+            max-width: 100%;
         }
 
         body {
@@ -51,7 +52,7 @@
             z-index: 999;
         }
 
-        /* --- 2. CURSORE (VISIBILE SOLO SU PC) --- */
+        /* --- 2. CURSORE (SOLO PC) --- */
         .cursor {
             width: 20px;
             height: 20px;
@@ -66,7 +67,7 @@
             transform-origin: center;
         }
 
-        /* --- 3. TYPOGRAPHY & ANIMATIONS --- */
+        /* --- 3. TYPOGRAPHY --- */
         h1, h2, .price {
             font-family: 'Anton', sans-serif;
             text-transform: uppercase;
@@ -78,7 +79,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- 4. HEADER (MINIMAL) --- */
+        /* --- 4. HEADER --- */
         header {
             position: fixed;
             top: 0;
@@ -99,14 +100,16 @@
             letter-spacing: 2px;
         }
 
-        /* --- 5. BRUTALIST HERO GRID --- */
+        /* --- 5. HERO GRID --- */
         .hero {
             height: 100vh; 
-            height: 100dvh; /* Altezza dinamica per mobile */
+            height: 100dvh;
             width: 100%;
             position: relative;
-            overflow: hidden;
             border-bottom: 1px solid #333;
+            /* Flex per centrare fallback */
+            display: flex;
+            flex-direction: column;
         }
 
         .hero-bg {
@@ -127,15 +130,14 @@
             to { transform: scale(1.05); }
         }
 
-        /* GRIGLIA PULITA */
+        /* GRIGLIA DESKTOP */
         .hero-grid {
             position: relative;
             z-index: 2;
             height: 100%;
             width: 100%;
             display: grid;
-            /* 15% bordi, resto centro */
-            grid-template-columns: 15% 1fr 15%; 
+            grid-template-columns: 15% 1fr 15%;
             grid-template-rows: 15% 1fr 15%;
             mix-blend-mode: difference;
         }
@@ -150,7 +152,6 @@
             position: relative;
         }
 
-        /* Rimuove i bordi esterni */
         .hero-grid .grid-cell:nth-child(3n) { border-right: none; }
         .hero-grid .grid-cell:nth-child(n+7) { border-bottom: none; }
 
@@ -166,11 +167,13 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            width: 100%;
+            overflow: hidden; /* Importante per non rompere la griglia */
         }
 
-        /* --- STILE LOGO --- */
+        /* LOGO */
         .hero-graphic {
-            width: 300px; /* Desktop */
+            width: 300px;
             height: auto;
             margin-bottom: 1.5rem;
             opacity: 0;
@@ -179,7 +182,6 @@
             mix-blend-mode: screen; 
         }
 
-        /* --- MADE IN ITALY --- */
         .hero-subtitle {
             font-family: 'Manrope', sans-serif;
             font-size: 1.5rem;
@@ -215,7 +217,7 @@
             50% { opacity: 0.3; }
         }
 
-        /* --- 6. MARQUEE --- */
+        /* MARQUEE */
         .marquee-container {
             background: white;
             color: black;
@@ -237,285 +239,83 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* --- 7. LOOKBOOK --- */
-        .lookbook {
-            padding: 100px 5%;
-        }
+        /* LOOKBOOK */
+        .lookbook { padding: 100px 5%; }
+        .item { display: flex; align-items: center; margin-bottom: 150px; justify-content: space-between; }
+        .item:nth-child(even) { flex-direction: row-reverse; }
+        .item-img-box { width: 45%; height: 600px; overflow: hidden; position: relative; }
+        .item-img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: transform 1s ease, filter 0.5s; }
+        .item-img-box:hover .item-img { transform: scale(1.1); filter: grayscale(0%); }
+        .item-info { width: 40%; }
+        .item-num { font-size: 1rem; color: #555; display: inline-block; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .item h2 { font-size: 4rem; margin-bottom: 20px; }
+        .item p { font-size: 1rem; color: #aaa; max-width: 300px; line-height: 1.8; }
+        .btn-shop { margin-top: 30px; display: inline-block; padding: 15px 40px; border: 1px solid white; color: white; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; transition: 0.3s; text-decoration: none; }
+        .btn-shop:hover { background: white; color: black; }
 
-        .item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 150px;
-            justify-content: space-between;
-        }
-
-        .item:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .item-img-box {
-            width: 45%;
-            height: 600px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .item-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%);
-            transition: transform 1s ease, filter 0.5s;
-        }
-
-        .item-img-box:hover .item-img {
-            transform: scale(1.1);
-            filter: grayscale(0%);
-        }
-
-        .item-info {
-            width: 40%;
-        }
-
-        .item-num {
-            font-size: 1rem;
-            color: #555;
-            display: inline-block;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-        }
-
-        .item h2 {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-
-        .item p {
-            font-size: 1rem;
-            color: #aaa;
-            max-width: 300px;
-            line-height: 1.8;
-        }
-
-        .btn-shop {
-            margin-top: 30px;
-            display: inline-block;
-            padding: 15px 40px;
-            border: 1px solid white;
-            color: white;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-
-        .btn-shop:hover {
-            background: white;
-            color: black;
-        }
-
-        /* --- 8. OFF-CANVAS PANEL --- */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        .overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .product-panel {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 50vw;
-            height: 100%;
-            background: var(--panel-bg);
-            z-index: 2001;
-            transform: translateX(100%);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            border-left: 1px solid #333;
-            padding: 60px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-panel.open {
-            transform: translateX(0);
-        }
-
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 40px;
-            font-size: 0.8rem;
-            color: #555;
-            font-family: monospace;
-            border-bottom: 1px solid #222;
-            padding-bottom: 20px;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-family: 'Manrope';
-            text-transform: uppercase;
-            font-size: 0.8rem;
-        }
-
-        .close-btn:hover {
-            color: #ff3333;
-        }
-
-        .panel-img-box {
-            width: 100%;
-            height: 400px;
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-
-        #panel-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%);
-        }
-
-        #panel-title {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-
-        .tech-specs {
-            margin-bottom: 30px;
-            border-top: 1px solid #222;
-        }
-
-        .spec-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid #222;
-            font-size: 0.8rem;
-            color: #aaa;
-            font-family: monospace;
-        }
-
-        .panel-desc {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: #ccc;
-            margin-bottom: 40px;
-        }
-
-        .panel-actions {
-            margin-top: auto;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            border-top: 1px solid #333;
-            padding-top: 30px;
-        }
-
-        .price {
-            font-size: 1.5rem;
-            letter-spacing: 1px;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            padding: 50px;
-            text-align: center;
-            border-top: 1px solid #222;
-        }
+        /* PANEL */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+        .overlay.active { opacity: 1; pointer-events: all; }
+        .product-panel { position: fixed; top: 0; right: 0; width: 50vw; height: 100%; background: var(--panel-bg); z-index: 2001; transform: translateX(100%); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); border-left: 1px solid #333; padding: 60px; overflow-y: auto; display: flex; flex-direction: column; }
+        .product-panel.open { transform: translateX(0); }
+        .panel-header { display: flex; justify-content: space-between; margin-bottom: 40px; font-size: 0.8rem; color: #555; font-family: monospace; border-bottom: 1px solid #222; padding-bottom: 20px; }
+        .close-btn { background: none; border: none; color: white; font-family: 'Manrope'; text-transform: uppercase; font-size: 0.8rem; }
+        .close-btn:hover { color: #ff3333; }
+        .panel-img-box { width: 100%; height: 400px; overflow: hidden; margin-bottom: 30px; }
+        #panel-img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); }
+        #panel-title { font-size: 3rem; margin-bottom: 20px; }
+        .tech-specs { margin-bottom: 30px; border-top: 1px solid #222; }
+        .spec-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #222; font-size: 0.8rem; color: #aaa; font-family: monospace; }
+        .panel-desc { font-size: 0.9rem; line-height: 1.6; color: #ccc; margin-bottom: 40px; }
+        .panel-actions { margin-top: auto; display: flex; justify-content: flex-end; align-items: center; border-top: 1px solid #333; padding-top: 30px; }
+        .price { font-size: 1.5rem; letter-spacing: 1px; }
+        footer { padding: 50px; text-align: center; border-top: 1px solid #222; }
 
         /* ------------------------------------------- */
-        /* --- RESPONSIVE MOBILE (GRIGLIA COERENTE) --- */
+        /* --- RESPONSIVE MOBILE FIX --- */
         /* ------------------------------------------- */
         @media (max-width: 768px) {
             
-            /* 1. NASCONDI CURSORE SU MOBILE */
             .cursor { display: none !important; }
             * { cursor: auto !important; }
 
-            /* 2. GRIGLIA 3x3 VISIBILE ANCHE SU MOBILE */
+            header { padding: 20px; } /* Meno padding laterale */
+
             .hero-grid {
-                display: grid; 
-                /* Colonne: 50px (sx) - SPAZIO (centro) - 50px (dx) */
-                grid-template-columns: 50px 1fr 50px; 
+                display: grid;
+                /* TRUCCO: minmax(0, 1fr) impedisce alla colonna centrale di espandersi all'infinito */
+                grid-template-columns: 50px minmax(0, 1fr) 50px;
                 grid-template-rows: 15% 1fr 15%;
             }
 
-            /* Assicuriamoci che tutte le celle abbiano i bordi per fare l'effetto "gabbia" */
-            .grid-cell { 
-                border-right: 1px solid var(--border-color); 
-                border-bottom: 1px solid var(--border-color);
-            }
-            
-            /* Eccezioni per bordi esterni */
+            .grid-cell { border-right: 1px solid var(--border-color); }
             .hero-grid .grid-cell:nth-child(3n) { border-right: none; }
-            .hero-grid .grid-cell:nth-child(n+7) { border-bottom: none; }
-
-            /* Mostra celle laterali per creare continuità verticale */
+            
+            /* Riattiva tutte le celle per vedere la griglia completa */
             .top-left, .top-right, .center-left, .center-right, .bottom-left, .bottom-right { 
-                display: flex; 
-                justify-content: center;
-                align-items: center;
+                display: flex; justify-content: center; align-items: center; 
             }
 
-            /* 3. IL CENTRO (Contenuto) */
             .center-main {
-                /* IMPORTANTE: Stai solo nella colonna centrale */
-                grid-column: 2; 
-                
-                /* Reset posizionamento assoluto */
+                grid-column: 2; /* Forza posizione centrale */
+                border-right: none; /* Rimuovi bordo interno */
                 position: relative;
                 top: auto; left: auto; transform: none;
-                width: 100%; height: 100%;
-                padding: 0 10px;
+                width: 100%; 
+                padding: 0;
             }
 
-            /* 4. DIMENSIONI RIDOTTE (NO ZOOM) */
-            .center-main h1 {
-                font-size: 13vw; /* Ridotto per stare nella colonna centrale */
-                line-height: 0.9;
-            }
+            /* Font ridotti per stare nella colonna centrale */
+            .center-main h1 { font-size: 13vw; }
+            .hero-subtitle { font-size: 0.8rem; margin-bottom: 10px; letter-spacing: 3px; }
+            .hero-graphic { width: 140px; margin-bottom: 10px; }
 
-            .hero-subtitle {
-                font-size: 0.8rem; 
-                margin-bottom: 10px;
-                letter-spacing: 3px;
-            }
-            
-            .hero-graphic {
-                width: 140px; /* Logo più piccolo */
-                margin-bottom: 10px;
-            }
-
-            /* 5. FIX LOOKBOOK MOBILE */
-            .item, .item:nth-child(even) {
-                flex-direction: column;
-                margin-bottom: 80px;
-            }
+            /* Fix Lookbook */
+            .item, .item:nth-child(even) { flex-direction: column; margin-bottom: 80px; }
             .item-img-box, .item-info { width: 100%; }
             .item-img-box { height: 400px; margin-bottom: 30px; }
             .item h2 { font-size: 3rem; }
             
-            /* 6. PANNELLO PRODOTTO MOBILE */
             .product-panel { width: 100%; padding: 20px; }
             #panel-title { font-size: 2rem; }
         }
@@ -525,71 +325,45 @@
 <body>
 
     <div class="cursor" id="cursor"></div>
-
     <div class="overlay" id="overlay"></div>
+
     <aside class="product-panel" id="product-panel">
         <div class="panel-header">
             <span class="panel-id">REF: <span id="panel-ref">IT-000</span></span>
             <button class="close-btn" id="close-btn">CHIUDI [X]</button>
         </div>
-
         <div class="panel-content">
-            <div class="panel-img-box">
-                <img src="" id="panel-img" alt="Detail">
-            </div>
-
+            <div class="panel-img-box"><img src="" id="panel-img" alt="Detail"></div>
             <h2 id="panel-title">LOADING...</h2>
-
             <div class="tech-specs">
-                <div class="spec-row">
-                    <span>MATERIALE</span>
-                    <span>100% COTTON</span>
-                </div>
-                <div class="spec-row">
-                    <span>ORIGINE</span>
-                    <span>MESAGNE, ITALY</span>
-                </div>
-                <div class="spec-row">
-                    <span>TAGLIA</span>
-                    <span>L</span>
-                </div>
+                <div class="spec-row"><span>MATERIAL</span><span>100% COTTON 14OZ</span></div>
+                <div class="spec-row"><span>ORIGIN</span><span>VENETO, ITALY</span></div>
+                <div class="spec-row"><span>FIT</span><span>TAPERED / RAW</span></div>
             </div>
-
             <p class="panel-desc" id="panel-desc"></p>
-
-            <div class="panel-actions">
-                <span class="price">€<span id="panel-price">70.00</span></span>
-            </div>
+            <div class="panel-actions"><span class="price">€ <span id="panel-price">280.00</span></span></div>
         </div>
     </aside>
 
     <section class="hero">
         <div class="hero-bg"></div>
-
         <div class="hero-grid">
             <div class="grid-cell top-left"></div>
             <div class="grid-cell top-center"></div>
             <div class="grid-cell top-right"></div>
 
-            <div class="grid-cell center-left">
-                <span class="crosshair">+</span>
-            </div>
+            <div class="grid-cell center-left"><span class="crosshair">+</span></div>
 
             <div class="grid-cell center-main">
                 <img src="Pi7_OUTCUT 1-03.png" class="hero-graphic" alt="Logo Outcut">
-                
                 <p class="hero-subtitle">MADE IN ITALY</p>
                 <h1>DENIM OUTCUT</h1>
             </div>
 
-            <div class="grid-cell center-right">
-                <span class="crosshair">+</span>
-            </div>
+            <div class="grid-cell center-right"><span class="crosshair">+</span></div>
 
             <div class="grid-cell bottom-left"></div>
-            <div class="grid-cell bottom-center">
-                <span class="scroll-indicator">SCORRI PER ESPLORARE ↓</span>
-            </div>
+            <div class="grid-cell bottom-center"><span class="scroll-indicator">SCORRI PER ESPLORARE ↓</span></div>
             <div class="grid-cell bottom-right"></div>
         </div>
     </section>
@@ -602,59 +376,42 @@
     </div>
 
     <section class="lookbook">
-
         <div class="item">
-            <div class="item-img-box">
-                <img src="Screenshot 2025-11-29 115539.png" class="item-img"
-                    alt="Denim Jacket">
-            </div>
+            <div class="item-img-box"><img src="Screenshot 2025-11-29 115539.png" class="item-img" alt="Denim Jacket"></div>
             <div class="item-info">
-                <span class="item-num">01 / GIACCA</span>
-                <h2>GIACCA OUTCUT</h2>
-                <p>Giacca in denim. Completamente artigianale.</p>
+                <span class="item-num">01 / JACKET</span>
+                <h2>THE RIDER</h2>
+                <p>Giacca in denim cimosato nero 14oz. Taglio vivo, bottoni in argento ossidato.</p>
                 <a href="#" class="btn-shop">Guarda i dettagli</a>
             </div>
         </div>
-
         <div class="item">
-            <div class="item-img-box">
-                <img src="Screenshot 2025-11-29 115432.png" class="item-img"
-                    alt="Black Jeans">
-            </div>
+            <div class="item-img-box"><img src="Screenshot 2025-11-29 115432.png" class="item-img" alt="Black Jeans"></div>
             <div class="item-info">
-                <span class="item-num">02 / MAGLIA</span>
-                <h2>MAGLIETTA OUTCUT</h2>
-                <p>La vestibilità perfetta.</p>
+                <span class="item-num">02 / PANTS</span>
+                <h2>SKINNY NOIR</h2>
+                <p>La vestibilità perfetta. Nero su nero. Tintura profonda.</p>
                 <a href="#" class="btn-shop">Guarda i dettagli</a>
             </div>
         </div>
-
         <div class="item">
-            <div class="item-img-box">
-                <img src="Screenshot 2025-11-29 115730.png" class="item-img"
-                    alt="Details">
-            </div>
+            <div class="item-img-box"><img src="Screenshot 2025-11-29 115730.png" class="item-img" alt="Details"></div>
             <div class="item-info">
-                <span class="item-num">03 / PANTALONI</span>
-                <h2>PANTALONI OUTCUT</h2>
+                <span class="item-num">03 / DETAILS</span>
+                <h2>RAW FINISH</h2>
                 <p>Nessun compromesso. Cuciture rinforzate tono su tono.</p>
                 <a href="#" class="btn-shop">Guarda i dettagli</a>
             </div>
         </div>
-
         <div class="item">
-            <div class="item-img-box">
-                <img src="Screenshot 2025-11-29 115641.png" class="item-img"
-                    alt="Distressed Denim">
-            </div>
+            <div class="item-img-box"><img src="Screenshot 2025-11-29 115641.png" class="item-img" alt="Distressed Denim"></div>
             <div class="item-info">
                 <span class="item-num">04 / TEXTURE</span>
-                <h2>CAMICIA OUTCUT</h2>
-                <p>Trattamento artigianale. Ogni pezzo è unico.</p>
+                <h2>DESTROYED</h2>
+                <p>Trattamento artigianale per strappi controllati. Ogni pezzo è unico.</p>
                 <a href="#" class="btn-shop">Guarda i dettagli</a>
             </div>
         </div>
-
     </section>
 
     <footer>
@@ -662,43 +419,22 @@
     </footer>
 
     <script>
-        /* --- FORCE SCROLL TO TOP ON RELOAD --- */
-        if (history.scrollRestoration) {
-            history.scrollRestoration = 'manual';
-        }
+        if (history.scrollRestoration) { history.scrollRestoration = 'manual'; }
+        window.onbeforeunload = function () { window.scrollTo(0, 0); }
+        window.onload = function () { window.scrollTo(0, 0); };
 
-        window.onbeforeunload = function () {
-            window.scrollTo(0, 0);
-        }
-
-        window.onload = function () {
-            window.scrollTo(0, 0);
-        };
-
-        /* --- CURSOR (Attivo solo se non nascosto da CSS) --- */
         const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
+        document.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
+        
         const hoverTargets = document.querySelectorAll('a, .logo, .close-btn, .item-img-box');
         hoverTargets.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                cursor.style.transform = "scale(3)";
-                cursor.style.background = "transparent";
-            });
-            link.addEventListener('mouseleave', () => {
-                cursor.style.transform = "scale(1)";
-                cursor.style.background = "white";
-            });
+            link.addEventListener('mouseenter', () => { cursor.style.transform = "scale(3)"; cursor.style.background = "transparent"; });
+            link.addEventListener('mouseleave', () => { cursor.style.transform = "scale(1)"; cursor.style.background = "white"; });
         });
 
-        /* --- PANEL LOGIC --- */
         const overlay = document.getElementById('overlay');
         const panel = document.getElementById('product-panel');
         const closeBtn = document.getElementById('close-btn');
-
         const panelImg = document.getElementById('panel-img');
         const panelTitle = document.getElementById('panel-title');
         const panelDesc = document.getElementById('panel-desc');
@@ -709,36 +445,25 @@
             const title = item.querySelector('h2').innerText;
             const desc = item.querySelector('p') ? item.querySelector('p').innerText : "Info non disponibili.";
             const num = item.querySelector('.item-num').innerText.split('/')[0].trim();
-
             panelImg.src = imgSrc;
             panelTitle.innerText = title;
             panelDesc.innerText = desc + " Trattamento artigianale specifico per ottenere una finitura unica.";
             panelRef.innerText = "IT-24-" + num;
-
             overlay.classList.add('active');
             panel.classList.add('open');
             document.body.style.overflow = 'hidden';
         }
 
-        const items = document.querySelectorAll('.item');
-        items.forEach(item => {
+        document.querySelectorAll('.item').forEach(item => {
             const btn = item.querySelector('.btn-shop');
             const imgBox = item.querySelector('.item-img-box');
             if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); openPanel(item); });
             imgBox.addEventListener('click', () => openPanel(item));
         });
 
-        function closePanel() {
-            overlay.classList.remove('active');
-            panel.classList.remove('open');
-            document.body.style.overflow = 'auto';
-        }
-
+        function closePanel() { overlay.classList.remove('active'); panel.classList.remove('open'); document.body.style.overflow = 'auto'; }
         closeBtn.addEventListener('click', closePanel);
         overlay.addEventListener('click', closePanel);
     </script>
 </body>
-
 </html>
-
-
