@@ -23,19 +23,20 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* Cursore custom solo su desktop */
             cursor: none;
         }
 
-        html,
-        body {
+        html, body {
             scroll-behavior: auto !important;
+            overflow-x: hidden;
+            width: 100%;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Manrope', sans-serif;
-            overflow-x: hidden;
         }
 
         /* Noise Overlay */
@@ -51,7 +52,7 @@
             z-index: 999;
         }
 
-        /* --- 2. CURSORE --- */
+        /* --- 2. CURSORE (VISIBILE SOLO SU PC) --- */
         .cursor {
             width: 20px;
             height: 20px;
@@ -67,24 +68,15 @@
         }
 
         /* --- 3. TYPOGRAPHY & ANIMATIONS --- */
-        h1,
-        h2,
-        .price {
+        h1, h2, .price {
             font-family: 'Anton', sans-serif;
             text-transform: uppercase;
             line-height: 0.9;
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- 4. HEADER (MINIMAL) --- */
@@ -111,7 +103,7 @@
         /* --- 5. BRUTALIST HERO GRID --- */
         .hero {
             height: 100vh; 
-            height: 100dvh; /* Fix Mobile */
+            height: 100dvh; /* Altezza dinamica per mobile */
             width: 100%;
             position: relative;
             overflow: hidden;
@@ -143,7 +135,8 @@
             height: 100%;
             width: 100%;
             display: grid;
-            grid-template-columns: 15% 1fr 15%;
+            /* 15% bordi, resto centro */
+            grid-template-columns: 15% 1fr 15%; 
             grid-template-rows: 15% 1fr 15%;
             mix-blend-mode: difference;
         }
@@ -177,7 +170,7 @@
 
         /* --- STILE LOGO --- */
         .hero-graphic {
-            width: 300px;
+            width: 300px; /* Desktop */
             height: auto;
             margin-bottom: 1.5rem;
             opacity: 0;
@@ -450,90 +443,77 @@
             border-top: 1px solid #222;
         }
 
-        /* RESPONSIVE */
+        /* ------------------------------------------- */
+        /* --- RESPONSIVE MOBILE (Fix Totale) --- */
+        /* ------------------------------------------- */
         @media (max-width: 768px) {
+            
+            /* 1. NASCONDI CURSORE SU MOBILE */
+            .cursor { display: none !important; }
+            * { cursor: auto !important; }
+
+            /* 2. GRIGLIA BRUTALISTA VISIBILE */
             .hero-grid {
-                display: block; 
-                position: relative;
+                display: grid; /* Manteniamo la griglia! */
+                /* Colonne più strette ai lati per dare spazio al centro */
+                grid-template-columns: 20px 1fr 20px; 
+                grid-template-rows: 15% 1fr 15%;
             }
 
-            .grid-cell {
-                border: none;
-                padding: 10px;
-            }
+            /* Assicuriamoci che i bordi si vedano */
+            .grid-cell { border-right: 1px solid var(--border-color); }
+            .hero-grid .grid-cell:nth-child(3n) { border-right: none; }
+            
+            /* Mostriamo le celle laterali per le righe (stile tecnico) */
+            .top-left, .top-right, .bottom-left, .bottom-right { display: flex; }
+            
+            /* Nascondiamo solo quelle centrali laterali se stringono troppo */
+            .center-left, .center-right { display: none; }
+            /* Espandiamo il centro per occupare lo spazio liberato */
+            .center-main { grid-column: 1 / span 3; border-right: none; }
 
-            .top-left, .top-right, .center-left, .center-right, .bottom-left, .bottom-right {
-                display: none;
-            }
 
-            /* --- CENTRATURA 40% PER IL TELEFONO --- */
+            /* 3. DIMENSIONI RIDOTTE (NO ZOOM) */
             .center-main {
-                position: absolute;
-                top: 40%; /* La modifica che volevi */
-                left: 50%; 
-                transform: translate(-50%, -50%); 
-                width: 100%;
-                text-align: center;
-                z-index: 10;
-                padding-bottom: 0;
+                /* Reset posizionamento assoluto, usiamo la griglia */
+                position: relative; 
+                top: auto; left: auto; transform: none;
+                width: 100%; height: 100%;
+                padding: 0 10px;
             }
 
             .center-main h1 {
-                font-size: 18vw;
+                font-size: 14vw; /* Molto più piccolo di 18vw */
             }
 
             .hero-subtitle {
-                font-size: 1rem;
+                font-size: 0.9rem; /* Testo più piccolo */
                 margin-bottom: 10px;
+                letter-spacing: 3px;
             }
             
             .hero-graphic {
-                width: 200px;
-                margin-bottom: 15px;
+                width: 160px; /* Logo più piccolo */
+                margin-bottom: 10px;
             }
 
-            .top-center {
-                position: absolute;
-                top: 20px;
-                width: 100%;
-                display: flex;
-                justify-content: center;
+            .top-center, .bottom-center {
+                /* Centriamo il contenuto nelle celle sopra e sotto */
+                display: flex; justify-content: center; align-items: center;
             }
 
-            .bottom-center {
-                position: absolute;
-                bottom: 80px;
-                width: 100%;
-                display: flex;
-                justify-content: center;
-            }
-
+            /* 4. LOOKBOOK MOBILE */
             .item, .item:nth-child(even) {
                 flex-direction: column;
                 margin-bottom: 80px;
             }
-
-            .item-img-box, .item-info {
-                width: 100%;
-            }
-
-            .item-img-box {
-                height: 400px;
-                margin-bottom: 30px;
-            }
-
-            .item h2 {
-                font-size: 3rem;
-            }
-
-            .product-panel {
-                width: 100%;
-                padding: 20px;
-            }
-
-            #panel-title {
-                font-size: 2rem;
-            }
+            .item-img-box, .item-info { width: 100%; }
+            .item-img-box { height: 400px; margin-bottom: 30px; }
+            .item h2 { font-size: 3rem; }
+            
+            /* 5. PANNELLO PRODOTTO MOBILE */
+            .product-panel { width: 100%; padding: 20px; }
+            #panel-title { font-size: 2rem; }
         }
     </style>
 </head>
@@ -546,7 +526,7 @@
     <aside class="product-panel" id="product-panel">
         <div class="panel-header">
             <span class="panel-id">REF: <span id="panel-ref">IT-000</span></span>
-            <button class="close-btn" id="close-btn">CLOSE [X]</button>
+            <button class="close-btn" id="close-btn">CHIUDI [X]</button>
         </div>
 
         <div class="panel-content">
@@ -691,7 +671,7 @@
             window.scrollTo(0, 0);
         };
 
-        /* --- CURSOR --- */
+        /* --- CURSOR (Attivo solo se non nascosto da CSS) --- */
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
