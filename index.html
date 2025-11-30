@@ -16,7 +16,7 @@
             --bg-color: #050505;
             --text-color: #ffffff;
             --panel-bg: #0a0a0a;
-            --border-color: rgba(255, 255, 255, 0.2);
+            --border-color: rgba(255, 255, 255, 0.25);
         }
 
         * {
@@ -30,7 +30,6 @@
             scroll-behavior: auto !important;
             overflow-x: hidden;
             width: 100%;
-            max-width: 100%;
         }
 
         body {
@@ -52,7 +51,7 @@
             z-index: 999;
         }
 
-        /* --- 2. CURSORE (SOLO PC) --- */
+        /* --- 2. CURSORE (VISIBILE SOLO SU PC) --- */
         .cursor {
             width: 20px;
             height: 20px;
@@ -67,7 +66,7 @@
             transform-origin: center;
         }
 
-        /* --- 3. TYPOGRAPHY --- */
+        /* --- 3. TYPOGRAPHY & ANIMATIONS --- */
         h1, h2, .price {
             font-family: 'Anton', sans-serif;
             text-transform: uppercase;
@@ -106,10 +105,8 @@
             height: 100dvh;
             width: 100%;
             position: relative;
+            overflow: hidden;
             border-bottom: 1px solid #333;
-            /* Flex per centrare fallback */
-            display: flex;
-            flex-direction: column;
         }
 
         .hero-bg {
@@ -130,7 +127,7 @@
             to { transform: scale(1.05); }
         }
 
-        /* GRIGLIA DESKTOP */
+        /* GRIGLIA PULITA (DESKTOP) */
         .hero-grid {
             position: relative;
             z-index: 2;
@@ -167,11 +164,9 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            width: 100%;
-            overflow: hidden; /* Importante per non rompere la griglia */
         }
 
-        /* LOGO */
+        /* LOGO STYLE */
         .hero-graphic {
             width: 300px;
             height: auto;
@@ -272,50 +267,55 @@
         footer { padding: 50px; text-align: center; border-top: 1px solid #222; }
 
         /* ------------------------------------------- */
-        /* --- RESPONSIVE MOBILE FIX --- */
+        /* --- RESPONSIVE MOBILE DEFINITIVO --- */
         /* ------------------------------------------- */
         @media (max-width: 768px) {
             
             .cursor { display: none !important; }
             * { cursor: auto !important; }
-
-            header { padding: 20px; } /* Meno padding laterale */
+            header { padding: 20px; }
 
             .hero-grid {
                 display: grid;
-                /* TRUCCO: minmax(0, 1fr) impedisce alla colonna centrale di espandersi all'infinito */
+                /* Griglia fissa: 50px lati, resto centro */
                 grid-template-columns: 50px minmax(0, 1fr) 50px;
                 grid-template-rows: 15% 1fr 15%;
             }
 
-            .grid-cell { border-right: 1px solid var(--border-color); }
+            /* Bordi per tutte le celle */
+            .grid-cell { 
+                border-right: 1px solid var(--border-color); 
+                border-bottom: 1px solid var(--border-color);
+                display: flex; justify-content: center; align-items: center;
+            }
+
             .hero-grid .grid-cell:nth-child(3n) { border-right: none; }
-            
-            /* Riattiva tutte le celle per vedere la griglia completa */
+            .hero-grid .grid-cell:nth-child(n+7) { border-bottom: none; }
+
+            /* Mostra tutto */
             .top-left, .top-right, .center-left, .center-right, .bottom-left, .bottom-right { 
-                display: flex; justify-content: center; align-items: center; 
+                display: flex !important; 
             }
 
             .center-main {
-                grid-column: 2; /* Forza posizione centrale */
-                border-right: none; /* Rimuovi bordo interno */
+                grid-column: 2; /* Solo colonna centrale */
+                grid-row: 2;
                 position: relative;
-                top: auto; left: auto; transform: none;
                 width: 100%; 
                 padding: 0;
+                /* Ripristina bordo destro per la linea verticale */
+                border-right: 1px solid var(--border-color) !important;
+                z-index: 0; 
             }
 
-            /* Font ridotti per stare nella colonna centrale */
-            .center-main h1 { font-size: 13vw; }
+            .center-main h1 { font-size: 13vw; line-height: 0.9; }
             .hero-subtitle { font-size: 0.8rem; margin-bottom: 10px; letter-spacing: 3px; }
             .hero-graphic { width: 140px; margin-bottom: 10px; }
 
-            /* Fix Lookbook */
             .item, .item:nth-child(even) { flex-direction: column; margin-bottom: 80px; }
             .item-img-box, .item-info { width: 100%; }
             .item-img-box { height: 400px; margin-bottom: 30px; }
             .item h2 { font-size: 3rem; }
-            
             .product-panel { width: 100%; padding: 20px; }
             #panel-title { font-size: 2rem; }
         }
